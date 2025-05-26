@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestão de Biblioteca</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Sistema de Gestão de Biblioteca</h1>
+            <p>Banco de Dados Orientado a Objetos</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('dashboard')">Dashboard</button>
+            <button class="tab-btn" onclick="showTab('livros')">Livros</button>
+            <button class="tab-btn" onclick="showTab('usuarios')">Usuários</button>
+            <button class="tab-btn" onclick="showTab('emprestimos')">Empréstimos</button>
+            <button class="tab-btn" onclick="showTab('relatorios')">Relatórios</button>
+        </div>
+
+        <div id="dashboard" class="tab-content active">
+            <h2>Dashboard do Sistema</h2>
+            <div class="stats-grid" id="statsGrid">
+            </div>
+            <div id="alertsContainer"></div>
+        </div>
+        <div id="livros" class="tab-content">
+            <h2>Gerenciamento de Livros</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Título:</label>
+                    <input type="text" id="tituloLivro" placeholder="Digite o título do livro">
+                </div>
+                <div class="form-group">
+                    <label>Autor:</label>
+                    <input type="text" id="autorLivro" placeholder="Digite o nome do autor">
+                </div>
+
+                <div class="form-group">
+                    <label>Ano de Publicação:</label>
+                    <input type="number" id="anoLivro" placeholder="Ex: 2023">
+                </div>
+                <div class="form-group">
+                    <label>Categoria:</label>
+                    <select id="categoriaLivro">
+                        <option value="">Selecione uma categoria</option>
+                        <option value="Ficção">Ficção</option>
+                        <option value="Não-ficção">Não-ficção</option>
+                        <option value="Técnico">Técnico</option>
+                        <option value="Acadêmico">Acadêmico</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Suspense">Suspense</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Número de Cópias:</label>
+                    <input type="number" id="copiasLivro" value="1" min="1">
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="adicionarLivro()">Adicionar Livro</button>
+            <button class="btn btn-success" onclick="listarLivros()">Listar Livros</button>
+
+            <table class="data-table" id="tabelaLivros" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>Categoria</th>
+                        <th>Status</th>
+                        <th>Cópias Disponíveis</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaLivros"></tbody>
+            </table>
+        </div>
+
+        <div id="usuarios" class="tab-content">
+            <h2>Gerenciamento de Usuários</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Nome:</label>
+                    <input type="text" id="nomeUsuario" placeholder="Digite o nome completo">
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="emailUsuario" placeholder="Digite o email">
+                </div>
+                <div class="form-group">
+                    <label>Telefone:</label>
+                    <input type="tel" id="telefoneUsuario" placeholder="Digite o telefone">
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Usuário:</label>
+                    <select id="tipoUsuario">
+                        <option value="Estudante">Estudante</option>
+                        <option value="Professor">Professor</option>
+                        <option value="Funcionário">Funcionário</option>
+                        <option value="Público Geral">Público Geral</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="adicionarUsuario()">Adicionar Usuário</button>
+            <button class="btn btn-success" onclick="listarUsuarios()">Listar Usuários</button>
+
+            <table class="data-table" id="tabelaUsuarios" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Tipo</th>
+                        <th>Livros Emprestados</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaUsuarios"></tbody>
+            </table>
+        </div>
+
+        <div id="emprestimos" class="tab-content">
+            <h2>Gerenciamento de Empréstimos</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Usuário:</label>
+                    <select id="usuarioEmprestimo">
+                        <option value="">Selecione um usuário</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Livro:</label>
+                    <select id="livroEmprestimo">
+                        <option value="">Selecione um livro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Data de Devolução:</label>
+                    <input type="date" id="dataDevolucao">
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="realizarEmprestimo()">Realizar Empréstimo</button>
+            <button class="btn btn-warning" onclick="realizarDevolucao()">Realizar Devolução</button>
+            <button class="btn btn-success" onclick="listarEmprestimos()">Listar Empréstimos</button>
+
+            <table class="data-table" id="tabelaEmprestimos" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuário</th>
+                        <th>Livro</th>
+                        <th>Data Empréstimo</th>
+                        <th>Data Devolução</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaEmprestimos"></tbody>
+            </table>
+        </div>
+
+        <div id="relatorios" class="tab-content">
+            <h2>Relatórios do Sistema</h2>
+            <button class="btn btn-primary" onclick="gerarRelatorioLivros()">Relatório de Livros</button>
+            <button class="btn btn-primary" onclick="gerarRelatorioUsuarios()">Relatório de Usuários</button>
+            <button class="btn btn-primary" onclick="gerarRelatorioEmprestimos()">Relatório de Empréstimos</button>
+            <button class="btn btn-warning" onclick="gerarRelatorioAtrasados()">Livros em Atraso</button>
+
+            <div id="relatorioContainer"></div>
+        </div>
+    </div>
+</body>
+</html>
